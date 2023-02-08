@@ -17,16 +17,18 @@ public class Main {
 
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         File file = new File("users.json");
-        try {if(!file.exists()) {
-            file.createNewFile();
-        }
-}catch (IOException e) {System.out.println("Cant create file" + e.getMessage());
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+        } catch (IOException e) {
+            System.out.println("Cant create file" + e.getMessage());
             try {
 
-               User value = objectMapper.readValue(file, User.class);
+                User value = objectMapper.readValue(file, User.class);
                 users.add(value);
 
-            }catch (IOException r){
+            } catch (IOException r) {
                 System.out.println("Cant read from file" + r.getMessage());
             }
 
@@ -35,36 +37,47 @@ public class Main {
         main.menu();
         main.action(scanner, users, objectMapper, file);
     }
-    public void menu(){
+
+    public void menu() {
         System.out.println("""
                 1. Register
                 2. Show all users
                 3. Exit
                 """);
     }
-    private void action(Scanner scanner, List<User>users, ObjectMapper mapper, File file){
-        String userInput = scanner.nextLine();
-        switch(userInput){
-            case "1" -> register(scanner, users, mapper,file );
 
-            case "2" -> System.out.println(users);
+    private void action(Scanner scanner, List<User> users, ObjectMapper mapper, File file) {
+        String userInput = scanner.nextLine();
+        switch (userInput) {
+            case "1" -> register(scanner, users, mapper, file);
+
+            case "2" -> showAllUsers(users, mapper, file);
             case "3" -> System.out.println("baigti programa");
             default -> System.out.println("Netinkama ivestis");
         }
     }
-    private void register (Scanner scanner, List<User> users, ObjectMapper mapper, File file){
+
+    private void register(Scanner scanner, List<User> users, ObjectMapper mapper, File file) {
         System.out.println("Iveskite varda");
         String name = scanner.nextLine();
         System.out.println("Iveskite pavarde");
-        String surname =scanner.nextLine();
+        String surname = scanner.nextLine();
         System.out.println("Iveskite asmens koda");
         String personId = scanner.nextLine();
         User user = new User(name, surname, personId);
         users.add(user);
-try {mapper.writeValue(file, users);
+        try {
+            mapper.writeValue(file, users);
+        } catch (IOException e) {
+            System.out.println("Cant write to file" + e.getMessage());
+        }
+    }
+private void showAllUsers(List<User>users, ObjectMapper mapper, File file){
+    try {User value = mapper.readValue(file, User.class);
+        users.add(value);
+        System.out.println(users);
 }catch (IOException e){
-    System.out.println("Cant write to file" + e.getMessage());
-}
-           }
-
+        System.out.println("Cant read from file" + e.getMessage());
+    }
+    }
 }
