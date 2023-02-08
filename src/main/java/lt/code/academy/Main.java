@@ -23,29 +23,28 @@ public class Main {
 }catch (IOException e) {System.out.println("Cant create file" + e.getMessage());
             try {
 
-                objectMapper.readValue(file, User.class);
+               objectMapper.readValue(file, User.class);
             }catch (IOException r){
                 System.out.println("Cant read from file" + r.getMessage());
             }
         }
-
-        try {objectMapper.writeValue(file, users);
-    }catch (IOException t){
-            System.out.println("Cant write to file" + t.getMessage());
-        }
+        Main main = new Main();
+        main.menu();
     }
-    public void menu(Scanner scanner){
+    public void menu(){
         System.out.println("""
                 1. Register
                 2. Show all users
+                3. Exit
                 """);
     }
-    private void action(String userInput, Scanner scanner, List<User>users){
-        switch(userInput){
+    private void action(Scanner scanner, List<User>users){
+        switch(scanner.nextLine()){
             case "1" -> register(scanner, users);
 
-            case "2" -> System.out.println("Users");
+            case "2" -> System.out.println(users);
             case "3" -> System.out.println("baigti programa");
+            default -> System.out.println("Netinkama ivestis");
         }
     }
     private void register (Scanner scanner, List<User> users){
@@ -57,8 +56,7 @@ public class Main {
         String personId = scanner.nextLine();
         User user = new User(name, surname, personId);
         users.add(user);
-    }
-    private void endProgram(){
 
-    }
+           }
+
 }
