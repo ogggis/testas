@@ -23,7 +23,8 @@ public class Main {
 }catch (IOException e) {System.out.println("Cant create file" + e.getMessage());
             try {
 
-               objectMapper.readValue(file, User.class);
+               User value = objectMapper.readValue(file, User.class);
+               users.add(value);
             }catch (IOException r){
                 System.out.println("Cant read from file" + r.getMessage());
             }
