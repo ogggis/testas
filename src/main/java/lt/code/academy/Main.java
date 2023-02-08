@@ -24,10 +24,12 @@ public class Main {
             try {
 
                User value = objectMapper.readValue(file, User.class);
-               users.add(value);
+                users.add(value);
+
             }catch (IOException r){
                 System.out.println("Cant read from file" + r.getMessage());
             }
+
         }
         Main main = new Main();
         main.menu();
