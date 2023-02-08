@@ -31,6 +31,7 @@ public class Main {
         }
         Main main = new Main();
         main.menu();
+        main.action(scanner, users, objectMapper, file);
     }
     public void menu(){
         System.out.println("""
@@ -39,16 +40,17 @@ public class Main {
                 3. Exit
                 """);
     }
-    private void action(Scanner scanner, List<User>users){
-        switch(scanner.nextLine()){
-            case "1" -> register(scanner, users);
+    private void action(Scanner scanner, List<User>users, ObjectMapper mapper, File file){
+        String userInput = scanner.nextLine();
+        switch(userInput){
+            case "1" -> register(scanner, users, mapper,file );
 
             case "2" -> System.out.println(users);
             case "3" -> System.out.println("baigti programa");
             default -> System.out.println("Netinkama ivestis");
         }
     }
-    private void register (Scanner scanner, List<User> users){
+    private void register (Scanner scanner, List<User> users, ObjectMapper mapper, File file){
         System.out.println("Iveskite varda");
         String name = scanner.nextLine();
         System.out.println("Iveskite pavarde");
@@ -57,7 +59,10 @@ public class Main {
         String personId = scanner.nextLine();
         User user = new User(name, surname, personId);
         users.add(user);
-
+try {mapper.writeValue(file, users);
+}catch (IOException e){
+    System.out.println("Cant write to file" + e.getMessage());
+}
            }
 
 }
